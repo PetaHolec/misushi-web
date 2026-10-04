@@ -189,29 +189,73 @@
   stage.addEventListener('pointercancel',e=>{pts.delete(e.pointerId);g=null;lb.style.removeProperty('--fade');reset(true)});
 })();
 
-// Mapa – Leaflet + OpenStreetMap, načítá se až když se k ní uživatel přiblíží
+// Mapa – MapLibre + OpenFreeMap: čistá vektorová mapa přebarvená do tónů webu,
+// načítá se až když se k ní uživatel přiblíží
 (function(){
   const el=document.getElementById('map'); if(!el) return;
-  const LAT=50.082309, LNG=14.4194829;
+  const LNG=14.4194829, LAT=50.082309;
+  const C={bg:'#F2EEE7',park:'#E6E5D7',wood:'#E1E0D1',water:'#D2D8D8',res:'#EEE9E1',bld:'#E7E0D4',bldLine:'#DAD1C3',
+           casing:'#DFD6C8',minor:'#FBF9F5',path:'#ECE6DB',major:'#FFFFFF',rail:'#DCD5C9',text:'#6B6357',textMinor:'#8C8274',halo:'#F7F4EF'};
   let started=false;
+  const recolor=map=>{
+    map.getStyle().layers.forEach(l=>{
+      const id=l.id, set=(p,v)=>{try{map.setPaintProperty(id,p,v)}catch(_){}};
+      if(l.type==='background') set('background-color',C.bg);
+      else if(l.type==='fill'){
+        if(id==='water') set('fill-color',C.water);
+        else if(id==='park') set('fill-color',C.park);
+        else if(id.includes('wood')) set('fill-color',C.wood);
+        else if(id.includes('residential')) set('fill-color',C.res);
+        else if(id==='building'){set('fill-color',C.bld);set('fill-outline-color',C.bldLine)}
+        else if(id.includes('pier')) set('fill-color',C.bg);
+      } else if(l.type==='line'){
+        if(id.includes('waterway')) set('line-color',C.water);
+        else if(id.includes('dashline')) set('line-color',C.halo);
+        else if(id.includes('rail')) set('line-color',C.rail);
+        else if(id.includes('casing')) set('line-color',C.casing);
+        else if(id.includes('pier')) set('line-color',C.bg);
+        else if(id.includes('path')) set('line-color',C.path);
+        else if(id.includes('minor')) set('line-color',C.minor);
+        else if(id.includes('major')||id.includes('motorway')) set('line-color',C.major);
+        else if(id.includes('boundary')) set('line-color','#CFC6B8');
+      } else if(l.type==='symbol'){
+        set('text-color',(id.startsWith('highway')||id.startsWith('water'))?C.textMinor:C.text);
+        set('text-halo-color',C.halo);
+      }
+    });
+  };
   const init=()=>{
-    if(!window.L) return;
-    const touch=matchMedia('(pointer:coarse)').matches;
-    const map=L.map(el.querySelector('.map-canvas'),{center:[LAT,LNG],zoom:16,scrollWheelZoom:false,dragging:!touch,tap:false,attributionControl:false});
-    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19}).addTo(map);
-    L.control.attribution({position:'topright',prefix:false}).addAttribution('© <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a>').addTo(map);
-    const icon=L.divIcon({className:'ms-pin',iconSize:[54,54],iconAnchor:[27,27],
-      html:'<span class="ms-pin-pulse"></span><span class="ms-pin-dot"><img src="https://misushi.cz/wp-content/uploads/2024/04/cropped-logomark-gold@4x-192x192.webp" alt=""></span>'});
-    L.marker([LAT,LNG],{icon:icon,keyboard:false,title:'MiSushi'}).addTo(map);
-    el.classList.add('ready');
-    addEventListener('resize',()=>map.invalidateSize());
+    if(!window.maplibregl) return;
+    let map;
+    try{
+      map=new maplibregl.Map({
+        container:el.querySelector('.map-canvas'),style:'https://tiles.openfreemap.org/styles/positron',
+        center:[LNG,LAT],zoom:el.offsetWidth<420?15.2:15.8,minZoom:12,maxZoom:18,attributionControl:false,
+        cooperativeGestures:true,dragRotate:false,pitchWithRotate:false,touchPitch:false,
+        locale:{
+          'CooperativeGesturesHandler.WindowsHelpText':'Mapu přiblížíte Ctrl + kolečkem myši',
+          'CooperativeGesturesHandler.MacHelpText':'Mapu přiblížíte ⌘ + kolečkem myši',
+          'CooperativeGesturesHandler.MobileHelpText':'Mapu posunete dvěma prsty',
+          'NavigationControl.ZoomIn':'Přiblížit','NavigationControl.ZoomOut':'Oddálit'
+        }
+      });
+    }catch(_){return}
+    map.touchZoomRotate.disableRotation();
+    map.addControl(new maplibregl.NavigationControl({showCompass:false}),'top-left');
+    map.addControl(new maplibregl.AttributionControl({compact:true}),'top-right');
+    const mk=document.createElement('div'); mk.className='ms-marker';
+    mk.innerHTML='<span class="ms-label">Mi Sushi</span><svg class="ms-pin" viewBox="0 0 40 52" aria-hidden="true"><path d="M20 50.5S36.5 33.6 36.5 21A16.5 16.5 0 0 0 3.5 21C3.5 33.6 20 50.5 20 50.5z"/><circle cx="20" cy="21" r="6"/></svg><span class="ms-ground"></span>';
+    new maplibregl.Marker({element:mk,anchor:'bottom'}).setLngLat([LNG,LAT]).addTo(map);
+    map.on('style.load',()=>{recolor(map);map.setPadding({top:60,bottom:0,left:0,right:0})});
+    const collapseAttrib=()=>{const d=el.querySelector('.maplibregl-ctrl-attrib');if(d){d.removeAttribute('open');d.classList.remove('maplibregl-compact-show')}};
+    map.on('load',()=>{collapseAttrib();el.classList.add('ready')});
   };
   const load=()=>{
     if(started) return; started=true;
     const css=document.createElement('link'); css.rel='stylesheet';
-    css.href='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css'; document.head.appendChild(css);
+    css.href='https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.css'; document.head.appendChild(css);
     const js=document.createElement('script');
-    js.src='https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js'; js.onload=init; document.head.appendChild(js);
+    js.src='https://cdnjs.cloudflare.com/ajax/libs/maplibre-gl/4.7.1/maplibre-gl.min.js'; js.onload=init; document.head.appendChild(js);
   };
   if('IntersectionObserver' in window){
     const io=new IntersectionObserver(es=>{if(es.some(e=>e.isIntersecting)){load();io.disconnect()}},{rootMargin:'800px 0px'});
