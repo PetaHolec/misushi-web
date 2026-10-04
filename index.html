@@ -15,572 +15,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;1,400&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-<style>
-:root{
-  --gold:#CDB076;
-  --gold-deep:#A88B4F;
-  --gold-soft:rgba(205,176,118,.14);
-  --ink:#111111;
-  --ink-2:#333333;
-  --ink-3:#4E4E4E;
-  --paper:#F6F4F0;
-  --paper-2:#EDEAE4;
-  --white:#FFFFFF;
-  --line:rgba(17,17,17,.12);
-  --serif:"Playfair Display", Georgia, serif;
-  --sans:"Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --radius-sm:14px;
-  --radius:18px;
-  --radius-lg:24px;
-  --gutter:20px;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{
-  font-family:var(--sans);color:var(--ink-2);line-height:1.6;font-size:16px;
-  background:
-    radial-gradient(1200px 600px at 10% -10%, rgba(255,255,255,.9), transparent 60%),
-    radial-gradient(900px 500px at 110% 20%, rgba(205,176,118,.08), transparent 60%),
-    var(--paper);
-  overflow-x:hidden;
-}
-img{display:block;max-width:100%}
-a{color:inherit;text-decoration:none}
-:focus-visible{outline:2px solid var(--gold);outline-offset:3px;border-radius:6px}
-.btn:focus-visible,.burger:focus-visible,.to-top:focus-visible,.socials a:focus-visible,.f-phone:focus-visible{border-radius:999px}
-.container{width:100%;max-width:1200px;margin:0 auto;padding:0 var(--gutter)}
-.eyebrow{
-  font-size:12px;letter-spacing:.24em;text-transform:uppercase;color:var(--gold-deep);
-  font-weight:600;display:inline-flex;align-items:center;gap:10px;
-}
-.eyebrow::before{content:"";width:28px;height:1px;background:var(--gold)}
-h1,h2,h3{font-family:var(--serif);font-weight:400;color:var(--ink);line-height:1.08;letter-spacing:-.01em}
-h2{font-size:clamp(32px,8vw,52px);margin:14px 0 16px}
-h2 em{font-style:italic;color:var(--gold-deep)}
-.lead{font-size:17px;color:var(--ink-3);max-width:60ch}
-section{padding:72px 0}
-
-/* Buttons */
-.btn{
-  display:inline-flex;align-items:center;justify-content:center;gap:10px;
-  height:52px;padding:0 26px;border-radius:999px;font-weight:600;font-size:15px;
-  letter-spacing:.02em;transition:transform .2s, background .2s, color .2s, border-color .2s;
-  -webkit-tap-highlight-color:transparent;white-space:nowrap
-}
-.btn:active{transform:scale(.97)}
-.btn-gold{background:var(--gold);color:var(--ink)}
-.btn-gold:hover{background:#d8bf8c}
-.btn-ghost{border:1px solid rgba(255,255,255,.5);color:#fff}
-.btn-ghost:hover{background:rgba(255,255,255,.1)}
-.btn-dark{background:var(--ink);color:#fff}
-.btn-dark:hover{background:#2a2a2a}
-.btn-outline{border:1px solid var(--ink);color:var(--ink)}
-.btn-outline:hover{background:var(--ink);color:#fff}
-.btn svg{width:18px;height:18px}
-
-/* Header */
-.header{
-  position:fixed;inset:0 0 auto 0;z-index:50;
-  padding:14px 0;transition:background .3s, box-shadow .3s, padding .3s;
-}
-.header.scrolled{background:rgba(246,244,240,.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);box-shadow:0 1px 0 var(--line);padding:10px 0}
-.header .container{display:flex;align-items:center;justify-content:space-between;gap:16px}
-.logo img{height:44px;width:auto;transition:height .3s}
-.header.scrolled .logo img{height:38px}
-.nav{display:none}
-.header-actions{display:flex;align-items:center;gap:10px}
-.lang{font-size:13px;font-weight:600;letter-spacing:.08em;color:#fff;opacity:.9;display:inline-block;line-height:44px;padding:0 6px}
-.header.scrolled .lang{color:var(--ink)}
-.lang b{color:var(--gold)}
-.header.scrolled .lang b,.menu-open .lang b{color:var(--gold-deep)}
-.burger{
-  width:46px;height:46px;border-radius:50%;border:1px solid rgba(255,255,255,.4);
-  background:rgba(17,17,17,.25);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
-  display:grid;place-items:center;cursor:pointer;
-}
-.header.scrolled .burger{border-color:var(--line);background:#fff}
-.burger span{display:block;width:18px;height:1.5px;background:#fff;position:relative;transition:.3s}
-.burger span::before,.burger span::after{content:"";position:absolute;left:0;width:18px;height:1.5px;background:inherit;transition:.3s}
-.burger span::before{top:-6px}.burger span::after{top:6px}
-.header.scrolled .burger span{background:var(--ink)}
-.menu-open .burger span{background:transparent!important}
-.menu-open .burger span::before{top:0;transform:rotate(45deg);background:var(--ink)}
-.menu-open .burger span::after{top:0;transform:rotate(-45deg);background:var(--ink)}
-.menu-open .burger{background:#fff;border-color:var(--line)}
-
-/* Mobile menu */
-.mobile-menu{
-  position:fixed;inset:0;z-index:40;background:var(--paper);
-  display:flex;flex-direction:column;padding:110px var(--gutter) calc(110px + env(safe-area-inset-bottom));
-  opacity:0;visibility:hidden;transition:opacity .35s, visibility .35s;
-}
-.menu-open .mobile-menu{opacity:1;visibility:visible}
-.menu-open .header .logo img{filter:none}
-.mobile-menu a.mm-link{
-  font-family:var(--serif);font-size:36px;color:var(--ink);line-height:1.25;
-  display:flex;align-items:baseline;gap:14px;
-  transform:translateY(16px);opacity:0;transition:transform .5s, opacity .5s;
-}
-.mobile-menu a.mm-link small{font-family:var(--sans);font-size:12px;color:var(--gold-deep);letter-spacing:.1em}
-.menu-open .mobile-menu a.mm-link{transform:none;opacity:1}
-.menu-open .mobile-menu a.mm-link:nth-child(2){transition-delay:.05s}
-.menu-open .mobile-menu a.mm-link:nth-child(3){transition-delay:.1s}
-.menu-open .mobile-menu a.mm-link:nth-child(4){transition-delay:.15s}
-.menu-open .mobile-menu a.mm-link:nth-child(5){transition-delay:.2s}
-.menu-open .mobile-menu a.mm-link:nth-child(6){transition-delay:.25s}
-.menu-open .mobile-menu a.mm-link:nth-child(7){transition-delay:.3s}
-.mm-foot{margin-top:auto;border-top:1px solid var(--line);padding-top:14px;font-size:15px;display:grid;gap:0}
-.mm-foot a{color:var(--ink);display:flex;align-items:center;min-height:44px}
-.mm-foot span{color:var(--ink-3);padding-top:6px}
-.menu-open{overflow:hidden}
-.menu-open .header{background:transparent;box-shadow:none;backdrop-filter:none}
-.menu-open .lang{color:var(--ink)}
-
-/* Hero */
-.hero{
-  position:relative;min-height:100svh;display:flex;align-items:flex-end;
-  padding:120px 0 40px;color:#fff;overflow:hidden;isolation:isolate;
-}
-.hero-bg{position:absolute;inset:0;z-index:-2}
-.hero-bg img{width:100%;height:100%;object-fit:cover;transform:scale(1.08);animation:heroZoom 14s ease-out forwards}
-@keyframes heroZoom{to{transform:scale(1)}}
-.hero::after{
-  content:"";position:absolute;inset:0;z-index:-1;
-  background:linear-gradient(180deg, rgba(17,17,17,.55) 0%, rgba(17,17,17,.15) 35%, rgba(17,17,17,.75) 75%, rgba(17,17,17,.92) 100%);
-}
-.hero .eyebrow{color:var(--gold)}
-.hero h1{color:#fff;font-size:clamp(42px,11.5vw,88px);margin:16px 0 18px;font-weight:400}
-.hero h1 em{color:var(--gold);font-style:italic}
-.hero p{font-size:17px;color:rgba(255,255,255,.85);max-width:46ch;margin-bottom:28px}
-.hero-ctas{display:flex;flex-wrap:wrap;gap:12px}
-.hero-ctas .btn{flex:1 1 auto}
-.rating-chip{
-  display:inline-flex;align-items:center;gap:10px;margin-top:28px;
-  padding:10px 16px 10px 12px;border-radius:999px;background:rgba(255,255,255,.1);
-  border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);font-size:14px
-}
-.rating-chip .g{width:22px;height:22px;border-radius:50%;background:#fff;display:grid;place-items:center}
-.rating-chip .g svg{width:14px;height:14px}
-.stars{color:var(--gold);letter-spacing:2px;font-size:14px}
-.scroll-cue{display:none}
-
-/* Info strip */
-.info-strip{background:var(--ink);color:#fff;padding:0}
-.info-grid{display:grid;grid-template-columns:1fr;}
-.info-item{display:flex;gap:14px;align-items:flex-start;padding:20px 0;border-bottom:1px solid rgba(255,255,255,.1)}
-.info-item:last-child{border-bottom:0}
-.info-item .ic{width:42px;height:42px;flex:none;border-radius:50%;border:1px solid rgba(205,176,118,.45);display:grid;place-items:center;color:var(--gold)}
-.info-item .ic svg{width:18px;height:18px}
-.info-item small{display:block;font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:2px}
-.info-item strong{font-weight:500;font-size:16px}
-.open-now{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:#9fd8a4;margin-left:6px}
-.open-now::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
-.open-now.closed{color:#e9a0a0}
-
-/* About */
-.about-media{position:relative;margin-top:36px}
-.about-media .main{border-radius:var(--radius);overflow:hidden;aspect-ratio:4/5}
-.about-media .main img{width:100%;height:100%;object-fit:cover}
-.about-media .badge{
-  position:absolute;right:14px;bottom:-22px;background:var(--ink);color:#fff;border-radius:var(--radius-sm);
-  padding:16px 18px;max-width:200px;box-shadow:0 20px 40px rgba(0,0,0,.18)
-}
-.about-media .badge b{font-family:var(--serif);font-size:26px;color:var(--gold);font-weight:500;display:block;line-height:1}
-.about-media .badge span{font-size:13px;color:rgba(255,255,255,.8)}
-.features{display:grid;gap:12px;margin-top:56px}
-.feature{display:flex;gap:16px;align-items:center;padding:18px 20px;border-radius:var(--radius);background:rgba(255,255,255,.7);border:1px solid var(--line)}
-.feature .num{font-family:var(--serif);font-size:30px;color:var(--gold-deep);width:40px;flex:none}
-.feature h3{font-family:var(--sans);font-size:16px;font-weight:600;color:var(--ink);line-height:1.3}
-.feature p{font-size:14px;color:var(--ink-3)}
-
-/* Concept & pricing */
-.concept{background:var(--ink);color:rgba(255,255,255,.8);position:relative;overflow:hidden}
-.concept::before{
-  content:"";position:absolute;width:520px;height:520px;border-radius:50%;
-  right:-260px;top:-160px;border:1px solid rgba(205,176,118,.18);
-}
-.concept::after{
-  content:"";position:absolute;width:360px;height:360px;border-radius:50%;
-  right:-180px;top:-80px;border:1px solid rgba(205,176,118,.12);
-}
-.concept h2{color:#fff}
-.concept h2 em{color:var(--gold)}
-.concept .lead{color:rgba(255,255,255,.72)}
-.steps{display:grid;gap:10px;margin:32px 0 44px;counter-reset:s}
-.step{display:flex;gap:14px;align-items:flex-start;padding:16px 0;border-top:1px solid rgba(255,255,255,.1)}
-.step::before{counter-increment:s;content:"0" counter(s);font-family:var(--serif);font-size:22px;color:var(--gold);min-width:34px}
-.step b{color:#fff;font-weight:600;display:block}
-.step span{font-size:14px}
-.pricing-head{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:16px}
-.pricing-head h3{color:#fff;font-size:30px}
-.pricing-head small{font-size:12px;color:var(--gold);letter-spacing:.14em;text-transform:uppercase}
-.prices{display:grid;gap:12px}
-.price-card{
-  border-radius:var(--radius);padding:22px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);
-}
-.price-card.featured{background:linear-gradient(160deg, rgba(205,176,118,.22), rgba(205,176,118,.05));border-color:rgba(205,176,118,.45)}
-.price-card .when{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:14px}
-.price-card .when b{color:#fff;font-size:17px;font-weight:600}
-.price-card .when span{font-size:13px;color:var(--gold)}
-.price-row{display:flex;justify-content:space-between;align-items:baseline;padding:8px 0;border-top:1px dashed rgba(255,255,255,.12)}
-.price-row .amt{font-family:var(--serif);font-size:34px;color:#fff;line-height:1}
-.price-row .amt small{font-family:var(--sans);font-size:13px;color:rgba(255,255,255,.6);margin-left:4px}
-.price-note{font-size:13px;color:rgba(255,255,255,.6);margin-top:18px;display:flex;gap:10px;align-items:flex-start;line-height:1.55}
-.price-note svg{width:16px;height:16px;flex:none;color:var(--gold);margin-top:2px}
-
-/* Menu */
-.menu-cats{
-  display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;
-  margin:32px calc(var(--gutter) * -1) 0;padding:4px var(--gutter) 10px;scrollbar-width:none
-}
-.menu-cats::-webkit-scrollbar{display:none}
-.cat{
-  flex:0 0 74%;scroll-snap-align:start;position:relative;border-radius:var(--radius);overflow:hidden;
-  aspect-ratio:3/4;color:#fff;isolation:isolate
-}
-.cat img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform .6s}
-.cat:hover img{transform:scale(1.05)}
-.cat::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,transparent 30%,rgba(17,17,17,.55) 55%,rgba(17,17,17,.92))}
-.cat .cat-body{position:absolute;left:0;right:0;bottom:0;padding:20px}
-.cat .jp{font-size:12px;letter-spacing:.2em;color:var(--gold);text-transform:uppercase}
-.cat h3{color:#fff;font-size:28px;margin:4px 0 6px}
-.cat p{font-size:14px;color:rgba(255,255,255,.8)}
-.menu-ctas{display:grid;gap:10px;margin-top:28px}
-.swipe-hint{font-size:13px;color:var(--ink-3);margin-top:8px;display:flex;align-items:center;gap:8px}
-
-/* Gallery */
-.gallery{padding-bottom:0}
-.gal{
-  display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:32px;
-  grid-auto-rows:150px;grid-auto-flow:dense
-}
-.gal a{border-radius:var(--radius-sm);overflow:hidden;position:relative;display:block}
-.gal img{width:100%;height:100%;object-fit:cover;transition:transform .6s}
-.gal a:hover img{transform:scale(1.05)}
-.gal .tall{grid-row:span 2}
-.gal .wide{grid-column:span 2}
-
-/* Reviews */
-.reviews-top{display:flex;flex-direction:column;gap:22px}
-.score{
-  display:flex;align-items:center;gap:18px;padding:20px;border-radius:var(--radius);
-  background:#fff;border:1px solid var(--line);box-shadow:0 10px 30px rgba(17,17,17,.05)
-}
-.score .big{font-family:var(--serif);font-size:56px;line-height:.9;color:var(--ink)}
-.score .stars{font-size:18px}
-.score small{display:block;color:var(--ink-3);font-size:14px}
-.score .gmark{margin-left:auto;width:40px;height:40px}
-.rev-track{
-  display:flex;gap:14px;overflow-x:auto;scroll-snap-type:x mandatory;
-  margin:24px calc(var(--gutter) * -1) 0;padding:4px var(--gutter) 14px;scrollbar-width:none
-}
-.rev-track::-webkit-scrollbar{display:none}
-.rev{
-  flex:0 0 86%;scroll-snap-align:start;background:#fff;border:1px solid var(--line);border-radius:var(--radius);
-  padding:22px;display:flex;flex-direction:column;gap:14px
-}
-.rev .who{display:flex;align-items:center;gap:12px}
-.rev .av{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;font-weight:600;color:#fff;font-size:15px}
-.rev .who b{display:block;color:var(--ink);font-size:15px}
-.rev .who small{color:var(--ink-3);font-size:12px}
-.rev .who svg{margin-left:auto;width:20px;height:20px}
-.rev p{font-size:15px;color:var(--ink-2)}
-.rev .tag{margin-top:auto;font-size:12px;color:var(--gold-deep);letter-spacing:.06em}
-.dots{display:flex;gap:6px;justify-content:center;margin-top:4px}
-.dots i{width:6px;height:6px;border-radius:99px;background:var(--line);transition:.3s}
-.dots i.on{width:20px;background:var(--gold)}
-.rev-ctas{display:grid;gap:10px;margin-top:22px}
-.demo-note{font-size:12px;color:var(--ink-3);text-align:center;margin-top:12px;opacity:.8}
-
-/* Voucher */
-.voucher-card{
-  position:relative;border-radius:var(--radius-lg);overflow:hidden;color:#fff;padding:40px 24px;isolation:isolate;
-}
-.voucher-card img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
-.voucher-card::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(120deg,rgba(17,17,17,.92),rgba(17,17,17,.55))}
-.voucher-card h2{color:#fff}
-.voucher-card h2 em{color:var(--gold)}
-.voucher-card p{color:rgba(255,255,255,.8);margin-bottom:24px;max-width:44ch}
-.voucher-card .ticket{
-  display:inline-flex;align-items:center;gap:8px;border:1px dashed rgba(205,176,118,.7);color:var(--gold);
-  padding:7px 14px 7px 12px;border-radius:999px;font-size:12px;letter-spacing:.14em;text-transform:uppercase;margin-bottom:6px
-}
-.voucher-card .ticket svg{width:15px;height:15px}
-
-/* Contact */
-.contact-grid{display:grid;gap:16px;margin-top:32px}
-.c-card{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px}
-.c-card h3{font-family:var(--sans);font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--gold-deep);font-weight:600;margin-bottom:10px}
-.c-card p,.c-card a{font-size:17px;color:var(--ink)}
-.c-card a{display:flex;align-items:center;min-height:44px;overflow-wrap:anywhere}
-.c-card a.link-gold{color:var(--gold-deep);font-size:15px;font-weight:500;min-height:44px;margin-top:4px}
-.c-card a.link-gold:hover{color:var(--ink)}
-.hours{width:100%;border-collapse:collapse;font-size:15px}
-.hours td{padding:7px 0;border-top:1px solid var(--line)}
-.hours td:last-child{text-align:right;color:var(--ink)}
-.hours tr:first-child td{border-top:0}
-.hours tr.today td{color:var(--gold-deep);font-weight:600}
-.map{border-radius:var(--radius);overflow:hidden;aspect-ratio:4/3;border:1px solid var(--line);background:var(--paper-2)}
-.map iframe{width:100%;height:100%;border:0;filter:grayscale(.6) contrast(1.05)}
-
-/* Footer */
-.footer{
-  background:var(--ink);color:rgba(255,255,255,.7);position:relative;
-  /* místo pro fixní .mbar na mobilu – tmavé pozadí až dolů */
-  padding-bottom:calc(76px + env(safe-area-inset-bottom));
-}
-.f-cta{position:relative;isolation:isolate;overflow:hidden;padding:76px 0 64px}
-.f-cta-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2}
-.f-cta::after{
-  content:"";position:absolute;inset:0;z-index:-1;
-  background:
-    linear-gradient(180deg, rgba(17,17,17,.88) 0%, rgba(17,17,17,.72) 40%, rgba(17,17,17,.95) 88%, #111 100%);
-}
-.f-cta .eyebrow{color:var(--gold)}
-.f-cta h2{color:#fff;font-size:clamp(42px,11.5vw,80px);margin:16px 0 16px;line-height:1.02}
-.f-cta h2 em{color:var(--gold)}
-.f-cta p{color:rgba(255,255,255,.78);max-width:40ch;font-size:16px}
-.f-cta-actions{display:grid;gap:12px;margin-top:30px}
-.f-cta-actions .btn{width:100%;height:56px;font-size:16px}
-.f-phone{
-  display:flex;align-items:center;gap:14px;min-height:60px;padding:8px 20px 8px 8px;
-  border-radius:999px;border:1px solid rgba(255,255,255,.18);background:rgba(17,17,17,.35);
-  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);color:#fff;transition:border-color .2s, background .2s
-}
-.f-phone:hover{border-color:rgba(205,176,118,.6);background:rgba(17,17,17,.55)}
-.f-phone .ic{width:44px;height:44px;flex:none;border-radius:50%;border:1px solid rgba(205,176,118,.55);display:grid;place-items:center;color:var(--gold)}
-.f-phone .ic svg{width:18px;height:18px}
-.f-phone small{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);line-height:1.3}
-.f-phone strong{display:block;font-weight:500;font-size:17px;letter-spacing:.01em;line-height:1.35}
-.f-rule{height:1px;border:0;background:linear-gradient(90deg, transparent, rgba(205,176,118,.55) 20%, rgba(205,176,118,.55) 80%, transparent)}
-
-.f-main{padding-top:44px}
-.f-brand{display:flex;flex-direction:column;align-items:flex-start;gap:14px;padding-bottom:32px}
-.f-brand img{height:58px;width:auto}
-.f-brand p{font-family:var(--serif);font-style:italic;font-size:19px;line-height:1.4;color:rgba(255,255,255,.82);max-width:28ch}
-.f-grid{display:grid;grid-template-columns:1fr 1fr;column-gap:20px}
-.f-col{padding:26px 0 24px;border-top:1px solid rgba(255,255,255,.1);min-width:0}
-.f-contact,.f-nav,.f-social{grid-column:1 / -1}
-.f-contact{order:1}.f-nav{order:2}.f-social{order:3}
-.footer h4{
-  display:flex;align-items:center;gap:10px;margin-bottom:12px;
-  font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);font-weight:600
-}
-.footer h4::before{content:"";width:14px;height:1px;background:var(--gold);opacity:.8}
-.f-col p{color:rgba(255,255,255,.84);font-size:15px;line-height:1.65}
-.f-link{display:flex;align-items:center;min-height:44px;color:#fff;font-size:16px;transition:color .2s;overflow-wrap:anywhere}
-.f-link:hover{color:var(--gold)}
-.f-link.sm{font-size:14px;color:var(--gold);min-height:44px;margin-top:2px;gap:6px}
-.f-link.sm:hover{color:#e3cc9c}
-.f-hours{display:grid;gap:2px}
-.f-hours span{font-size:14px;color:rgba(255,255,255,.6)}
-.f-hours strong{font-weight:500;color:#fff;font-size:16px}
-.f-col .open-now{margin:10px 0 0}
-.f-nav ul{list-style:none;display:grid;grid-template-columns:1fr 1fr;column-gap:20px}
-.f-nav a{display:flex;align-items:center;gap:10px;min-height:44px;color:rgba(255,255,255,.88);font-size:15px;transition:color .2s}
-.f-nav a::before{content:"";width:10px;height:1px;background:rgba(205,176,118,.6);transition:width .25s, background .25s}
-.f-nav a:hover{color:var(--gold)}
-.f-nav a:hover::before{width:18px;background:var(--gold)}
-.socials{display:flex;gap:10px;flex-wrap:wrap}
-.socials a{
-  display:inline-flex;align-items:center;gap:10px;height:46px;padding:0 20px 0 16px;border-radius:999px;
-  border:1px solid rgba(255,255,255,.18);color:#fff;font-size:14px;font-weight:500;transition:border-color .2s, color .2s
-}
-.socials a:hover{border-color:var(--gold);color:var(--gold)}
-.socials svg{width:18px;height:18px;color:var(--gold);flex:none}
-.f-bottom{
-  display:flex;align-items:center;justify-content:space-between;gap:16px;
-  border-top:1px solid rgba(255,255,255,.1);padding:20px 0 24px;font-size:13px;color:rgba(255,255,255,.55)
-}
-.f-bottom p{line-height:1.5}
-.f-bottom p span{display:block}
-.to-top{
-  width:44px;height:44px;flex:none;border-radius:50%;border:1px solid rgba(205,176,118,.45);
-  display:grid;place-items:center;color:var(--gold);transition:background .2s, color .2s
-}
-.to-top:hover{background:var(--gold);color:var(--ink)}
-.to-top svg{width:18px;height:18px}
-
-/* Mobile sticky bar */
-.mbar{
-  position:fixed;left:0;right:0;bottom:0;z-index:45;
-  padding:10px 12px calc(10px + env(safe-area-inset-bottom));
-  background:rgba(17,17,17,.94);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
-  display:grid;grid-template-columns:1fr 1fr 1.6fr;gap:8px;
-  transform:translateY(110%);transition:transform .35s ease;
-}
-.mbar.show{transform:none}
-.mbar a{
-  height:50px;border-radius:var(--radius-sm);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
-  font-size:11px;color:#fff;background:rgba(255,255,255,.07);letter-spacing:.04em
-}
-.mbar a svg{width:18px;height:18px;color:var(--gold)}
-.mbar a.res{background:var(--gold);color:var(--ink);font-size:15px;font-weight:600;flex-direction:row;gap:8px}
-.mbar a.res svg{color:var(--ink)}
-
-
-/* Marquee */
-.marquee{overflow:hidden;border-block:1px solid var(--line);padding:18px 0;background:rgba(255,255,255,.45)}
-.marquee-track{display:flex;width:max-content;animation:marq 38s linear infinite}
-.marquee-track span{font-family:var(--serif);font-style:italic;font-size:clamp(24px,6vw,34px);color:var(--ink);padding:0 22px;white-space:nowrap;line-height:1.2}
-.marquee-track i{font-style:normal;color:var(--gold);align-self:center;font-size:14px}
-@keyframes marq{to{transform:translateX(-50%)}}
-
-/* Gallery – zoom affordance */
-.gal a{cursor:zoom-in;-webkit-tap-highlight-color:transparent}
-.gal a::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(180deg,transparent 55%,rgba(17,17,17,.35));opacity:0;transition:opacity .3s}
-.gal a::after{
-  content:"";position:absolute;right:10px;bottom:10px;z-index:2;width:34px;height:34px;border-radius:50%;
-  background:rgba(17,17,17,.55) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23CDB076' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='6.5'/%3E%3Cpath d='M20 20l-4.2-4.2M11 8.3v5.4M8.3 11h5.4'/%3E%3C/svg%3E") center/16px no-repeat;
-  -webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);border:1px solid rgba(205,176,118,.35);transition:transform .3s
-}
-.gal a:hover::before{opacity:1}
-.gal a:hover::after{transform:scale(1.1)}
-.gal-more{display:flex;justify-content:center;margin-top:22px}
-.gal-more .btn svg{color:var(--gold)}
-.cat,.about-media .main{cursor:zoom-in}
-
-/* Lightbox */
-html.lb-lock,html.lb-lock body{overflow:hidden}
-.lb{
-  position:fixed;inset:0;z-index:100;display:block;
-  background:rgba(10,10,10,calc(.97 * var(--fade,1)));
-  opacity:0;visibility:hidden;transition:opacity .3s ease, visibility .3s;
-}
-.lb[hidden]{display:none}
-.lb.open{opacity:1;visibility:visible}
-.lb-stage{position:absolute;inset:0;overflow:hidden;touch-action:none;user-select:none;-webkit-user-select:none}
-.lb-img{
-  position:absolute;top:72px;bottom:104px;left:0;right:0;margin:auto;
-  max-width:100%;max-height:calc(100% - 176px);
-  -webkit-user-drag:none;cursor:zoom-in;will-change:transform;opacity:0;transition:opacity .25s
-}
-.lb.zoomed .lb-img{cursor:grab}
-.lb-top{position:absolute;top:0;left:0;right:0;z-index:3;display:flex;justify-content:space-between;align-items:center;padding:calc(12px + env(safe-area-inset-top)) 16px 12px 20px;pointer-events:none}
-.lb-top > *{pointer-events:auto}
-.lb-count{font-size:13px;letter-spacing:.22em;color:rgba(255,255,255,.6)}
-.lb-count b{color:var(--gold);font-weight:600}
-.lb-btn{
-  width:48px;height:48px;border-radius:50%;border:1px solid rgba(255,255,255,.18);background:rgba(17,17,17,.55);
-  color:#fff;display:grid;place-items:center;cursor:pointer;-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
-  transition:border-color .2s,color .2s,opacity .25s;-webkit-tap-highlight-color:transparent
-}
-.lb-btn:hover{border-color:var(--gold);color:var(--gold)}
-.lb-btn svg{width:20px;height:20px}
-.lb-btn:focus-visible{border-radius:50%}
-.lb-prev,.lb-next{position:absolute;z-index:3;bottom:calc(18px + env(safe-area-inset-bottom))}
-.lb-prev{left:16px}.lb-next{right:16px}
-.lb-cap{
-  position:absolute;left:72px;right:72px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:3;min-height:48px;
-  display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;pointer-events:none;transition:opacity .25s
-}
-.lb-cap span{font-family:var(--serif);font-style:italic;font-size:18px;color:rgba(255,255,255,.9);line-height:1.25}
-.lb-cap small{font-size:11px;letter-spacing:.08em;color:rgba(255,255,255,.45);margin-top:4px}
-.lb.zoomed .lb-cap,.lb.zoomed .lb-prev,.lb.zoomed .lb-next{opacity:0;pointer-events:none}
-.lb.single .lb-prev,.lb.single .lb-next,.lb.single .lb-count{visibility:hidden}
-@media (min-width:700px){
-  .lb-img{left:96px;right:96px;max-width:calc(100% - 192px);top:80px;bottom:96px;max-height:calc(100% - 176px)}
-  .lb-prev,.lb-next{top:50%;bottom:auto;transform:translateY(-50%);width:56px;height:56px}
-  .lb-prev{left:24px}.lb-next{right:24px}
-  .lb-cap{bottom:28px}
-  .lb-top{padding:20px 24px 12px 32px}
-}
-
-/* Reveal */
-.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s ease, transform .8s ease}
-.reveal.in{opacity:1;transform:none}
-@media (prefers-reduced-motion:reduce){
-  .reveal{opacity:1;transform:none;transition:none}
-  .hero-bg img{animation:none;transform:none}
-  html{scroll-behavior:auto}
-  .marquee-track{animation:none}
-  .lb-img{transition:none!important}
-}
-
-/* ---------- Tablet ---------- */
-@media (min-width:700px){
-  :root{--gutter:32px}
-  section{padding:96px 0}
-  .info-grid{grid-template-columns:repeat(3,1fr);gap:24px}
-  .info-item{border-bottom:0;padding:26px 0}
-  .features{grid-template-columns:repeat(3,1fr)}
-  .feature{flex-direction:column;align-items:flex-start}
-  .prices{grid-template-columns:repeat(3,1fr)}
-  .cat{flex-basis:42%}
-  .menu-ctas{grid-template-columns:auto auto;justify-content:start}
-  .gal{grid-template-columns:repeat(4,1fr);grid-auto-rows:190px}
-  .gal .big{grid-row:span 2}
-  .rev{flex-basis:46%}
-  .rev-ctas{grid-template-columns:auto auto;justify-content:center}
-  .contact-grid{grid-template-columns:1fr 1fr}
-  .contact-grid .map{grid-column:span 2;aspect-ratio:21/9}
-  .f-cta{padding:104px 0 88px}
-  .f-cta-actions{grid-template-columns:auto auto;justify-content:start;align-items:center;gap:16px}
-  .f-cta-actions .btn{width:auto;padding:0 34px}
-  .f-main{padding-top:56px}
-  .f-brand{flex-direction:row;align-items:center;justify-content:space-between;gap:32px;padding-bottom:40px}
-  .f-brand p{text-align:right}
-  .f-grid{grid-template-columns:repeat(3,1fr);column-gap:32px}
-  .f-contact,.f-social{grid-column:auto}
-  .f-contact,.f-nav,.f-social{order:0}
-  .f-nav{grid-column:span 2}
-  .f-nav ul{grid-template-columns:repeat(3,1fr)}
-  .f-bottom p span{display:inline}
-  .f-bottom p span + span::before{content:" · "}
-  .voucher-card{padding:56px}
-  .hero-ctas .btn{flex:0 0 auto}
-}
-
-/* ---------- Desktop ---------- */
-@media (min-width:1024px){
-  .mbar{display:none}
-  .burger,.mobile-menu{display:none}
-  .nav{display:flex;gap:30px;font-size:14px;font-weight:500;letter-spacing:.04em}
-  .nav a{color:#fff;position:relative;padding:6px 0;opacity:.9}
-  .nav a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--gold);transition:width .3s}
-  .nav a:hover::after{width:100%}
-  .header.scrolled .nav a{color:var(--ink)}
-  .header .btn{height:44px;padding:0 22px}
-  .logo img{height:52px}
-  .hero{align-items:center;padding:140px 0 80px}
-  .hero-inner{max-width:760px}
-  .scroll-cue{display:flex;position:absolute;left:50%;bottom:28px;transform:translateX(-50%);flex-direction:column;align-items:center;gap:8px;font-size:11px;letter-spacing:.2em;color:rgba(255,255,255,.7)}
-  .scroll-cue i{width:1px;height:40px;background:linear-gradient(var(--gold),transparent);animation:cue 2s infinite}
-  @keyframes cue{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
-  .about-grid{display:grid;grid-template-columns:1.05fr 1fr;gap:80px;align-items:center}
-  .about-media{margin-top:0}
-  .concept-grid{display:grid;grid-template-columns:1fr 1.15fr;gap:72px;align-items:start}
-  .steps{margin-bottom:0}
-  .menu-cats{display:grid;grid-template-columns:repeat(3,1fr);overflow:visible;margin:40px 0 0;padding:0}
-  .cat{aspect-ratio:4/5}
-  .swipe-hint{display:none}
-  .gal{grid-auto-rows:220px;gap:12px}
-  .reviews-top{flex-direction:row;justify-content:space-between;align-items:end}
-  .score{min-width:340px}
-  .rev-track{display:grid;grid-template-columns:repeat(3,1fr);overflow:visible;margin:36px 0 0;padding:0}
-  .dots{display:none}
-  .contact-grid{grid-template-columns:1fr 1fr 1.6fr}
-  .contact-grid .map{grid-column:auto;grid-row:span 2;aspect-ratio:auto;min-height:380px}
-  .contact-grid .c-card:nth-child(3){grid-column:1 / span 2}
-  .footer{padding-bottom:0}
-  .f-cta{padding:128px 0 112px}
-  .f-cta-inner{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(320px,.65fr);align-items:end;gap:72px}
-  .f-cta-actions{grid-template-columns:1fr;margin-top:0;gap:14px}
-  .f-cta-actions .btn{width:100%}
-  .f-main{padding-top:64px}
-  .f-col{padding:32px 0 44px}
-  .f-bottom{padding:24px 0 32px}
-}
-/* ---------- Wide desktop: patička v 5 sloupcích ---------- */
-@media (min-width:1200px){
-  .f-grid{grid-template-columns:1fr 1.1fr 1fr 1.6fr .85fr;column-gap:40px}
-  .f-contact,.f-nav,.f-social{grid-column:auto}
-  .f-nav ul{grid-template-columns:auto auto;justify-content:start;column-gap:28px}
-  .f-nav a{white-space:nowrap}
-  .socials{flex-direction:column;align-items:flex-start}
-}
-@media (max-width:1023px){ .header .btn-reserve{display:none} }
-</style>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
@@ -626,8 +61,12 @@ html.lb-lock,html.lb-lock body{overflow:hidden}
 
 <!-- Hero -->
 <section class="hero">
-  <div class="hero-bg">
-    <img src="https://misushi.cz/wp-content/uploads/2024/04/chef-lighting-torch-sear-piece-sushi-adding-smoky-flavor-omakase-dish.webp" alt="Šéfkuchař opaluje nigiri plamenem" fetchpriority="high">
+  <div class="hero-bg" data-hero-slides>
+    <img class="is-active" src="https://misushi.cz/wp-content/uploads/2024/04/chef-lighting-torch-sear-piece-sushi-adding-smoky-flavor-omakase-dish.webp" alt="Šéfkuchař opaluje nigiri plamenem" fetchpriority="high">
+    <img data-src="https://misushi.cz/wp-content/uploads/2024/04/230405_5.webp" alt="Interiér restaurace MiSushi">
+    <img data-src="https://misushi.cz/wp-content/uploads/2024/04/plate-freshly-sliced-sashimi-with-vibrant-colors-glistening-textures.webp" alt="Sashimi">
+    <img data-src="https://misushi.cz/wp-content/uploads/2024/04/230405_4-e1714470352482.webp" alt="Jídelna MiSushi">
+    <img data-src="https://misushi.cz/wp-content/uploads/2024/04/apanese-sushi-rolls-with-salmon-shrimp-smoked-eel-red-caviar-scaled.webp" alt="Sushi rolky s úhořem">
   </div>
   <div class="container">
     <div class="hero-inner">
@@ -646,6 +85,13 @@ html.lb-lock,html.lb-lock body{overflow:hidden}
         <span class="stars">★★★★★</span>
         <span><b>4,6</b> · 1 090 recenzí</span>
       </a>
+      <div class="hero-dots" role="group" aria-label="Fotky na pozadí">
+        <button type="button" aria-label="Fotka 1" aria-current="true"><i></i></button>
+        <button type="button" aria-label="Fotka 2" aria-current="false"><i></i></button>
+        <button type="button" aria-label="Fotka 3" aria-current="false"><i></i></button>
+        <button type="button" aria-label="Fotka 4" aria-current="false"><i></i></button>
+        <button type="button" aria-label="Fotka 5" aria-current="false"><i></i></button>
+      </div>
     </div>
   </div>
   <div class="scroll-cue">SCROLL<i></i></div>
@@ -660,7 +106,7 @@ html.lb-lock,html.lb-lock body{overflow:hidden}
     </a>
     <div class="info-item">
       <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
-      <span><small>Otevírací doba</small><strong>Po–Ne 10.30–22.30</strong><span class="open-now" id="openNow">Otevřeno</span></span>
+      <span><small>Otevírací doba</small><strong>Po–Ne <span class="nw">10.30–22.30</span></strong><span class="open-now" id="openNow">Otevřeno</span></span>
     </div>
     <a class="info-item" href="tel:+420608558930">
       <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg></span>
@@ -705,9 +151,10 @@ html.lb-lock,html.lb-lock body{overflow:hidden}
     <div class="reveal">
       <div class="pricing-head">
         <h3>Ceník</h3>
-        <small>platí od 22. 11. 2024</small>
+        <small>cena za osobu</small>
       </div>
       <div class="prices">
+        <div class="price-head-m" aria-hidden="true"><span></span><span>Dospělý</span><span>Děti*</span></div>
         <div class="price-card">
           <div class="when"><b>Oběd</b><span>Po–Pá · 11.00–16.00</span></div>
           <div class="price-row"><span>Dospělý</span><span class="amt">599<small>Kč</small></span></div>
@@ -720,10 +167,11 @@ html.lb-lock,html.lb-lock body{overflow:hidden}
         </div>
         <div class="price-card">
           <div class="when"><b>Víkend &amp; svátky</b><span>Celý den · 11.00–22.00</span></div>
-          <div class="price-row"><span>Dospělý</span><span class="amt">799<small>Kč</small></span></div>
+          <div class="price-row"><span>Dospělý</span><span class="amt">699<small>Kč</small></span></div>
           <div class="price-row"><span>Děti do 120 cm</span><span class="amt">359<small>Kč</small></span></div>
         </div>
       </div>
+      <p class="price-kids-m">* děti do 120 cm</p>
       <p class="price-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M5 19c0-8 5-13 15-14-1 10-6 15-14 15"/><path d="M5 19 13 11"/></svg>Prosíme hosty, aby neplýtvali jídlem. Za nadměrné plýtvání si dovolujeme účtovat poplatek.</p>
     </div>
   </div>
@@ -737,21 +185,33 @@ html.lb-lock,html.lb-lock body{overflow:hidden}
       <h2>Pestrá <em>nabídka</em></h2>
       <p class="lead">Od klasického sushi přes fusion rolls až po maso a mořské plody z grilu, nudle a dim sum.</p>
     </div>
-    <div class="menu-cats">
+    <div class="rail" id="menuRail" data-rail data-speed="34">
+      <div class="rail-track">
       <article class="cat" data-lb="menu" data-full="https://misushi.cz/wp-content/uploads/2024/04/japanese-sushi-collection.webp" data-caption="Sushi &amp; rolls" role="button" tabindex="0"><img src="https://misushi.cz/wp-content/uploads/2024/04/japanese-sushi-collection-683x1024.webp" alt="Sushi" loading="lazy"><div class="cat-body"><span class="jp">寿司 · Sushi</span><h3>Sushi &amp; rolls</h3><p>Od klasických nigiri po fusion rolls.</p></div></article>
       <article class="cat" data-lb="menu" data-full="https://misushi.cz/wp-content/uploads/2024/04/high-angle-traditional-asian-dumplings-with-chopsticks-1.webp" data-caption="Dim sum" role="button" tabindex="0"><img src="https://misushi.cz/wp-content/uploads/2024/04/high-angle-traditional-asian-dumplings-with-chopsticks-1-684x1024.webp" alt="Dim sum" loading="lazy"><div class="cat-body"><span class="jp">点心 · Dim sum</span><h3>Dim sum</h3><p>Od jiaozi až po gyozy.</p></div></article>
       <article class="cat" data-lb="menu" data-full="https://misushi.cz/wp-content/uploads/2024/04/hawaiian-salmon-poke-bowl-with-seaweed-avocado-sesame-seeds-1.webp" data-caption="Bowls" role="button" tabindex="0"><img src="https://misushi.cz/wp-content/uploads/2024/04/hawaiian-salmon-poke-bowl-with-seaweed-avocado-sesame-seeds-1-681x1024.webp" alt="Poke bowl" loading="lazy"><div class="cat-body"><span class="jp">丼 · Bowls</span><h3>Bowls</h3><p>Od čerstvých poké po unagi don.</p></div></article>
       <article class="cat" data-lb="menu" data-full="https://misushi.cz/wp-content/uploads/2024/04/woman-eating-asian-udon-wok-noodles-e1713104372484.webp" data-caption="Nudle &amp; rýže" role="button" tabindex="0"><img src="https://misushi.cz/wp-content/uploads/2024/04/woman-eating-asian-udon-wok-noodles-e1713104372484-1024x1024.webp" alt="Udon nudle" loading="lazy"><div class="cat-body"><span class="jp">麺 · Noodles</span><h3>Nudle &amp; rýže</h3><p>Nudlové a rýžové pokrmy včetně yaki udon.</p></div></article>
       <article class="cat" data-lb="menu" data-full="https://misushi.cz/wp-content/uploads/2024/04/fried-shrimps-served-with-lemon-slices-lettuce-sauce.webp" data-caption="Tempura" role="button" tabindex="0"><img src="https://misushi.cz/wp-content/uploads/2024/04/fried-shrimps-served-with-lemon-slices-lettuce-sauce-819x1024.webp" alt="Tempura" loading="lazy"><div class="cat-body"><span class="jp">天ぷら · Tempura</span><h3>Tempura</h3><p>Ebi tempura, karaage a další.</p></div></article>
       <article class="cat" data-lb="menu" data-full="https://misushi.cz/wp-content/uploads/2024/04/high-angle-asian-dish-plate-with-meat-rice.webp" data-caption="Wok &amp; gril" role="button" tabindex="0"><img src="https://misushi.cz/wp-content/uploads/2024/04/high-angle-asian-dish-plate-with-meat-rice-684x1024.webp" alt="Wok" loading="lazy"><div class="cat-body"><span class="jp">鍋 · Wok</span><h3>Wok &amp; gril</h3><p>Restované pokrmy až po křupavou kachnu.</p></div></article>
+      </div>
     </div>
-    <p class="swipe-hint">← Posuňte prstem pro další kategorie →</p>
+    <div class="rail-ctrl" data-rail-ctrl="menuRail">
+      <span class="rail-hint"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V11m0-1.5a1.5 1.5 0 0 1 3 0V11m0-.5a1.5 1.5 0 0 1 3 0v4.5a6 6 0 0 1-6 6h-1a6 6 0 0 1-5-2.7L3.6 14a1.5 1.5 0 0 1 2.5-1.7L9 15"/></svg>Posuňte prstem</span>
+      <div class="rail-btns">
+        <button type="button" class="rail-btn" data-rail-prev aria-label="Předchozí"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <button type="button" class="rail-btn" data-rail-pause aria-pressed="false" aria-label="Zastavit posouvání"><svg class="i-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6v12M15 6v12"/></svg><svg class="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l10.5-6.5z"/></svg></button>
+        <button type="button" class="rail-btn" data-rail-next aria-label="Další"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+      </div>
+    </div>
     <div class="menu-ctas">
       <a class="btn btn-dark" href="https://misushi.cz/wp-content/uploads/2024/07/2232012091%E5%8D%95%E5%86%85%E9%A1%B5-4991-compressed.pdf" target="_blank" rel="noopener">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>
-        Stálé menu (PDF)
+        Stálé menu
       </a>
-      <a class="btn btn-outline" href="https://misushi.cz/wp-content/uploads/2024/07/%E5%8D%95%E5%86%85%E9%A1%B5899-compressed.pdf" target="_blank" rel="noopener">Obědové menu (PDF)</a>
+      <a class="btn btn-outline" href="https://misushi.cz/wp-content/uploads/2024/07/%E5%8D%95%E5%86%85%E9%A1%B5899-compressed.pdf" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 3H6a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><path d="M14 3v6h6M8 13h8M8 17h5"/></svg>
+        Obědové menu
+      </a>
     </div>
   </div>
 </section>
@@ -771,31 +231,37 @@ html.lb-lock,html.lb-lock body{overflow:hidden}
       <span class="eyebrow">Galerie</span>
       <h2>Nahlédněte <em>k nám</em></h2>
     </div>
-    <div class="gal reveal">
-      <a class="wide" href="https://misushi.cz/wp-content/uploads/2024/04/230405_5.webp" data-lb="gal"><img src="https://misushi.cz/wp-content/uploads/2024/04/230405_5-1024x683.webp" alt="Interiér MiSushi" loading="lazy"></a>
-      <a class="tall" href="https://misushi.cz/wp-content/uploads/2024/04/plate-salmon-with-lemon-garnish.webp" data-lb="gal"><img src="https://misushi.cz/wp-content/uploads/2024/04/plate-salmon-with-lemon-garnish-838x1024.webp" alt="Losos s citronem" loading="lazy"></a>
-      <a href="https://misushi.cz/wp-content/uploads/2024/04/apanese-sushi-rolls-with-salmon-shrimp-smoked-eel-red-caviar-scaled.webp" data-lb="gal"><img src="https://misushi.cz/wp-content/uploads/2024/04/apanese-sushi-rolls-with-salmon-shrimp-smoked-eel-red-caviar-1024x683.webp" alt="Sushi rolky" loading="lazy"></a>
-      <a class="wide" href="https://misushi.cz/wp-content/uploads/2024/04/230405_4-e1714470352482.webp" data-lb="gal"><img src="https://misushi.cz/wp-content/uploads/2024/04/230405_4-e1714470352482-1024x573.webp" alt="Jídelna MiSushi" loading="lazy"></a>
-      <a href="https://misushi.cz/wp-content/uploads/2024/04/plate-freshly-sliced-sashimi-with-vibrant-colors-glistening-textures.webp" data-lb="gal"><img src="https://misushi.cz/wp-content/uploads/2024/04/plate-freshly-sliced-sashimi-with-vibrant-colors-glistening-textures.webp" alt="Sashimi" loading="lazy"></a>
-      <a class="tall" href="https://misushi.cz/wp-content/uploads/2024/04/japanese-ramen-noodle-soup-with-beef-pastrami.webp" data-lb="gal"><img src="https://misushi.cz/wp-content/uploads/2024/04/japanese-ramen-noodle-soup-with-beef-pastrami.webp" alt="Ramen s hovězím" loading="lazy"></a>
-      <a class="tall" href="https://misushi.cz/wp-content/uploads/2024/04/hand-pouring-drink-cups-high-angle-e1714470193123.webp" data-lb="gal"><img src="https://misushi.cz/wp-content/uploads/2024/04/hand-pouring-drink-cups-high-angle-e1714470193123-1024x540.webp" alt="Čaj" loading="lazy"></a>
-      <a class="wide big" href="https://misushi.cz/wp-content/uploads/2024/04/high-angle-delicious-ramen-bowl-3.webp" data-lb="gal"><img src="https://misushi.cz/wp-content/uploads/2024/04/high-angle-delicious-ramen-bowl-3.webp" alt="Ramen" loading="lazy"></a>
+    <div class="rail" id="galRail" data-rail data-speed="28">
+      <div class="rail-track">
+        <a class="gtile" href="https://misushi.cz/wp-content/uploads/2024/04/230405_5.webp" data-lb="gal" style="--ar:1024/683"><img src="https://misushi.cz/wp-content/uploads/2024/04/230405_5-1024x683.webp" alt="Interiér MiSushi" loading="lazy"></a>
+        <a class="gtile" href="https://misushi.cz/wp-content/uploads/2024/04/plate-salmon-with-lemon-garnish.webp" data-lb="gal" style="--ar:838/1024"><img src="https://misushi.cz/wp-content/uploads/2024/04/plate-salmon-with-lemon-garnish-838x1024.webp" alt="Losos s citronem" loading="lazy"></a>
+        <a class="gtile" href="https://misushi.cz/wp-content/uploads/2024/04/chef-lighting-torch-sear-piece-sushi-adding-smoky-flavor-omakase-dish.webp" data-lb="gal" style="--ar:1024/574"><img src="https://misushi.cz/wp-content/uploads/2024/04/chef-lighting-torch-sear-piece-sushi-adding-smoky-flavor-omakase-dish-1024x574.webp" alt="Flambování nigiri" loading="lazy"></a>
+        <a class="gtile" href="https://misushi.cz/wp-content/uploads/2024/04/from-abundance-delicious-sushi-rolls-with-different-colorful-fish-served-plate-trays-light-cafe.webp" data-lb="gal" style="--ar:683/1024"><img src="https://misushi.cz/wp-content/uploads/2024/04/from-abundance-delicious-sushi-rolls-with-different-colorful-fish-served-plate-trays-light-cafe-683x1024.webp" alt="Sushi plato" loading="lazy"></a>
+        <a class="gtile" href="https://misushi.cz/wp-content/uploads/2024/04/plate-freshly-sliced-sashimi-with-vibrant-colors-glistening-textures.webp" data-lb="gal" style="--ar:1165/653"><img src="https://misushi.cz/wp-content/uploads/2024/04/plate-freshly-sliced-sashimi-with-vibrant-colors-glistening-textures.webp" alt="Sashimi" loading="lazy"></a>
+        <a class="gtile" href="https://misushi.cz/wp-content/uploads/2024/04/japanese-ramen-noodle-soup-with-beef-pastrami.webp" data-lb="gal" style="--ar:859/1288"><img src="https://misushi.cz/wp-content/uploads/2024/04/japanese-ramen-noodle-soup-with-beef-pastrami.webp" alt="Ramen s hovězím" loading="lazy"></a>
+        <a class="gtile" data-rail-extra href="https://misushi.cz/wp-content/uploads/2024/04/230405_4-e1714470352482.webp" data-lb="gal" style="--ar:1024/573"><img src="https://misushi.cz/wp-content/uploads/2024/04/230405_4-e1714470352482-1024x573.webp" alt="Jídelna MiSushi" loading="lazy"></a>
+        <a class="gtile" data-rail-extra href="https://misushi.cz/wp-content/uploads/2024/04/assortment-different-kinds-sushi-rolls-placed-black-stone-board-traditional-asian-iron-tea-pot-side-top-angle-view.webp" data-lb="gal" style="--ar:683/1024"><img src="https://misushi.cz/wp-content/uploads/2024/04/assortment-different-kinds-sushi-rolls-placed-black-stone-board-traditional-asian-iron-tea-pot-side-top-angle-view-683x1024.webp" alt="Výběr rolek" loading="lazy"></a>
+        <a class="gtile" data-rail-extra href="https://misushi.cz/wp-content/uploads/2024/04/apanese-sushi-rolls-with-salmon-shrimp-smoked-eel-red-caviar-scaled.webp" data-lb="gal" style="--ar:1024/683"><img src="https://misushi.cz/wp-content/uploads/2024/04/apanese-sushi-rolls-with-salmon-shrimp-smoked-eel-red-caviar-1024x683.webp" alt="Sushi rolky s úhořem" loading="lazy"></a>
+        <a class="gtile" data-rail-extra href="https://misushi.cz/wp-content/uploads/2024/04/high-angle-traditional-asian-dumplings-with-chopsticks-1.webp" data-lb="gal" style="--ar:684/1024"><img src="https://misushi.cz/wp-content/uploads/2024/04/high-angle-traditional-asian-dumplings-with-chopsticks-1-684x1024.webp" alt="Dim sum" loading="lazy"></a>
+        <a class="gtile" data-rail-extra href="https://misushi.cz/wp-content/uploads/2024/04/230405_2.webp" data-lb="gal" style="--ar:1024/683"><img src="https://misushi.cz/wp-content/uploads/2024/04/230405_2-1024x683.webp" alt="Interiér MiSushi" loading="lazy"></a>
+        <a class="gtile" data-rail-extra href="https://misushi.cz/wp-content/uploads/2024/04/hawaiian-salmon-poke-bowl-with-seaweed-avocado-sesame-seeds-1.webp" data-lb="gal" style="--ar:681/1024"><img src="https://misushi.cz/wp-content/uploads/2024/04/hawaiian-salmon-poke-bowl-with-seaweed-avocado-sesame-seeds-1-681x1024.webp" alt="Poké bowl s lososem" loading="lazy"></a>
+        <a class="gtile" data-rail-extra href="https://misushi.cz/wp-content/uploads/2024/04/hand-pouring-drink-cups-high-angle-e1714470193123.webp" data-lb="gal" style="--ar:1024/540"><img src="https://misushi.cz/wp-content/uploads/2024/04/hand-pouring-drink-cups-high-angle-e1714470193123-1024x540.webp" alt="Čaj" loading="lazy"></a>
+        <a class="gtile" data-rail-extra href="https://misushi.cz/wp-content/uploads/2024/04/sushi-japanese-cuisine-hd-8k-wallpaper-stock-photographic-image.webp" data-lb="gal" style="--ar:1114/1478"><img src="https://misushi.cz/wp-content/uploads/2024/04/sushi-japanese-cuisine-hd-8k-wallpaper-stock-photographic-image.webp" alt="Sushi" loading="lazy"></a>
+        <a class="gtile" data-rail-extra href="https://misushi.cz/wp-content/uploads/2024/04/high-angle-delicious-ramen-bowl-3.webp" data-lb="gal" style="--ar:800/1200"><img src="https://misushi.cz/wp-content/uploads/2024/04/high-angle-delicious-ramen-bowl-3.webp" alt="Ramen" loading="lazy"></a>
+        <a class="gtile" data-rail-extra href="https://misushi.cz/wp-content/uploads/2024/04/japanese-sushi-collection.webp" data-lb="gal" style="--ar:683/1024"><img src="https://misushi.cz/wp-content/uploads/2024/04/japanese-sushi-collection-683x1024.webp" alt="Nigiri a maki" loading="lazy"></a>
+        <a class="gtile gtile-more" href="galerie.html" style="--ar:3/4">
+          <span class="gm-count">16</span><span class="gm-label">fotek v galerii</span>
+          <span class="gm-cta">Otevřít galerii <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+        </a>
+      </div>
     </div>
-    <div hidden>
-      <a href="https://misushi.cz/wp-content/uploads/2024/04/chef-lighting-torch-sear-piece-sushi-adding-smoky-flavor-omakase-dish.webp" data-lb="gal" data-caption="Flambování nigiri"></a>
-      <a href="https://misushi.cz/wp-content/uploads/2024/04/230405_2.webp" data-lb="gal" data-caption="Interiér MiSushi"></a>
-      <a href="https://misushi.cz/wp-content/uploads/2024/04/assortment-different-kinds-sushi-rolls-placed-black-stone-board-traditional-asian-iron-tea-pot-side-top-angle-view.webp" data-lb="gal" data-caption="Výběr rolek"></a>
-      <a href="https://misushi.cz/wp-content/uploads/2024/04/from-abundance-delicious-sushi-rolls-with-different-colorful-fish-served-plate-trays-light-cafe.webp" data-lb="gal" data-caption="Sushi plato"></a>
-      <a href="https://misushi.cz/wp-content/uploads/2024/04/sushi-japanese-cuisine-hd-8k-wallpaper-stock-photographic-image.webp" data-lb="gal" data-caption="Sushi"></a>
-      <a href="https://misushi.cz/wp-content/uploads/2024/04/japanese-sushi-collection.webp" data-lb="gal" data-caption="Nigiri a maki"></a>
-      <a href="https://misushi.cz/wp-content/uploads/2024/04/high-angle-traditional-asian-dumplings-with-chopsticks-1.webp" data-lb="gal" data-caption="Dim sum"></a>
-      <a href="https://misushi.cz/wp-content/uploads/2024/04/hawaiian-salmon-poke-bowl-with-seaweed-avocado-sesame-seeds-1.webp" data-lb="gal" data-caption="Poké bowl s lososem"></a>
-    </div>
-    <div class="gal-more">
-      <button type="button" class="btn btn-outline" data-lb-open="gal">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>
-        Zobrazit všech 16 fotek
-      </button>
+    <div class="rail-ctrl" data-rail-ctrl="galRail">
+      <a class="rail-link" href="galerie.html">Celá galerie <span>(16 fotek)</span> <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      <div class="rail-btns">
+        <button type="button" class="rail-btn" data-rail-prev aria-label="Předchozí"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+        <button type="button" class="rail-btn" data-rail-pause aria-pressed="false" aria-label="Zastavit posouvání"><svg class="i-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 6v12M15 6v12"/></svg><svg class="i-play" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5.5v13l10.5-6.5z"/></svg></button>
+        <button type="button" class="rail-btn" data-rail-next aria-label="Další"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+      </div>
     </div>
   </div>
 </section>
@@ -836,7 +302,7 @@ html.lb-lock,html.lb-lock body{overflow:hidden}
     <div class="dots" id="revDots"><i class="on"></i><i></i><i></i></div>
     <div class="rev-ctas">
       <a class="btn btn-dark" href="https://www.google.com/maps/search/MiSushi+Národní+26+Praha" target="_blank" rel="noopener">Všechny recenze na Googlu</a>
-      <a class="btn btn-outline" href="https://www.google.com/maps/search/MiSushi+Národní+26+Praha" target="_blank" rel="noopener">Napsat recenzi</a>
+      <a class="btn btn-outline rev-write" href="https://www.google.com/maps/search/MiSushi+Národní+26+Praha" target="_blank" rel="noopener">Napsat recenzi</a>
     </div>
     <p class="demo-note">Ukázkové texty – ve finální verzi se recenze načítají živě z Google.</p>
   </div>
@@ -863,30 +329,37 @@ html.lb-lock,html.lb-lock body{overflow:hidden}
       <h2>Těšíme se <em>na vás</em></h2>
     </div>
     <div class="contact-grid">
-      <div class="c-card reveal">
-        <h3>Adresa</h3>
-        <p>Národní 63/26<br>110 00 Praha 1 – Nové Město</p>
-        <a class="link-gold" href="https://maps.google.com/?q=MiSushi+Národní+63/26+Praha" target="_blank" rel="noopener">Navigovat →</a>
+      <div class="c-card contact-card reveal">
+        <div class="cc-block">
+          <h3>Adresa</h3>
+          <p>Národní 63/26<br>110 00 Praha 1 – Nové Město</p>
+          <p class="addr-note">Obchodní dům Máj · metro Národní třída</p>
+        </div>
+        <div class="cc-block">
+          <h3>Kontakt</h3>
+          <a href="tel:+420608558930">+420 608 558 930</a>
+          <a href="mailto:misushi.maj@gmail.com">misushi.maj@gmail.com</a>
+        </div>
       </div>
-      <div class="c-card reveal">
-        <h3>Kontakt</h3>
-        <a href="tel:+420608558930">+420 608 558 930</a>
-        <a href="mailto:misushi.maj@gmail.com">misushi.maj@gmail.com</a>
-      </div>
-      <div class="map reveal">
-        <iframe src="https://maps.google.com/maps?q=MiSushi%20N%C3%A1rodn%C3%AD%2063%2F26%20Praha&z=16&output=embed" loading="lazy" title="Mapa – MiSushi" referrerpolicy="no-referrer-when-downgrade"></iframe>
-      </div>
-      <div class="c-card reveal">
-        <h3>Otevírací doba</h3>
-        <table class="hours" id="hours">
-          <tr data-d="1"><td>Pondělí</td><td>10.30 – 22.30</td></tr>
-          <tr data-d="2"><td>Úterý</td><td>10.30 – 22.30</td></tr>
-          <tr data-d="3"><td>Středa</td><td>10.30 – 22.30</td></tr>
-          <tr data-d="4"><td>Čtvrtek</td><td>10.30 – 22.30</td></tr>
-          <tr data-d="5"><td>Pátek</td><td>10.30 – 22.30</td></tr>
-          <tr data-d="6"><td>Sobota</td><td>10.30 – 22.30</td></tr>
-          <tr data-d="0"><td>Neděle</td><td>10.30 – 22.30</td></tr>
-        </table>
+      <div class="hours-map reveal">
+        <div class="c-card hours-card">
+          <h3>Otevírací doba</h3>
+          <p class="hc-days">Pondělí – Neděle</p>
+          <p class="hc-time"><span>10.30</span><i aria-hidden="true"></i><span>22.30</span></p>
+          <span class="open-now" data-open-now>Otevřeno</span>
+          <ul class="hc-slots">
+            <li><span>Oběd</span><b>11–16</b></li>
+            <li><span>Večeře</span><b>17–22</b></li>
+          </ul>
+        </div>
+        <div class="map" id="map">
+          <div class="map-canvas" role="img" aria-label="Mapa – MiSushi, Národní 63/26, Praha 1"></div>
+          <a class="map-fallback" href="https://www.google.com/maps/search/?api=1&amp;query=Mi%20Sushi%20N%C3%A1rodn%C3%AD%2063%2F26%20Praha" target="_blank" rel="noopener">Zobrazit na mapě →</a>
+          <a class="map-cta" href="https://www.google.com/maps/dir/?api=1&amp;destination=50.082309,14.4194829" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 11 21 3l-8 18-2-8z"/></svg>
+            Navigovat
+          </a>
+        </div>
       </div>
     </div>
   </div>
@@ -945,7 +418,7 @@ html.lb-lock,html.lb-lock body{overflow:hidden}
           <li><a href="#onas">O nás</a></li>
           <li><a href="#koncept">Koncept &amp; ceny</a></li>
           <li><a href="#menu">Menu</a></li>
-          <li><a href="#galerie">Galerie</a></li>
+          <li><a href="galerie.html">Galerie</a></li>
           <li><a href="#recenze">Recenze</a></li>
           <li><a href="#voucher">Voucher</a></li>
           <li><a href="#kontakt">Kontakt</a></li>
@@ -955,13 +428,16 @@ html.lb-lock,html.lb-lock body{overflow:hidden}
         <h4>Sociální sítě</h4>
         <div class="socials">
           <a href="https://www.facebook.com/profile.php?id=61560266624048" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M14 8h3V4h-3a4 4 0 0 0-4 4v2H8v4h2v8h4v-8h3l1-4h-4V8.5c0-.3.2-.5.5-.5z"/></svg>Facebook</a>
-          <a href="#"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>Instagram</a>
+          <a href="https://www.instagram.com/misushi_maj/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/></svg>Instagram</a>
         </div>
       </div>
     </div>
 
     <div class="f-bottom">
-      <p><span>© 2026 MiSushi</span><span>Všechna práva vyhrazena</span></p>
+      <div class="f-legal">
+        <p><span>© 2026 MiSushi</span><span>Všechna práva vyhrazena</span></p>
+        <a class="f-credit" href="https://skocdal.cz" target="_blank" rel="noopener">Web vytvořil <b>Skočdál</b></a>
+      </div>
       <a href="#top" class="to-top" aria-label="Zpět nahoru"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 19V5M6 11l6-6 6 6"/></svg></a>
     </div>
   </div>
@@ -986,192 +462,6 @@ html.lb-lock,html.lb-lock body{overflow:hidden}
   <a class="res" href="https://embed.choiceqr.com/booking/misushi?lang=cz" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>Rezervace</a>
 </nav>
 
-<script>
-(function(){
-  const header=document.getElementById('header'), mbar=document.getElementById('mbar');
-  const onScroll=()=>{
-    const y=window.scrollY;
-    header.classList.toggle('scrolled', y>40);
-    mbar.classList.toggle('show', y>window.innerHeight*0.6);
-  };
-  onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
-
-  // Mobile menu
-  const burger=document.getElementById('burger'), mm=document.getElementById('mobileMenu');
-  const toggle=(open)=>{
-    document.body.classList.toggle('menu-open', open);
-    burger.setAttribute('aria-expanded', open); mm.setAttribute('aria-hidden', !open);
-  };
-  burger.addEventListener('click', ()=>toggle(!document.body.classList.contains('menu-open')));
-  mm.querySelectorAll('a').forEach(a=>a.addEventListener('click', ()=>toggle(false)));
-
-  // Open now (Prague time)
-  try{
-    const now=new Date(new Date().toLocaleString('en-US',{timeZone:'Europe/Prague'}));
-    const m=now.getHours()*60+now.getMinutes(), open=m>=630 && m<1350;
-    document.querySelectorAll('#openNow,[data-open-now]').forEach(el=>{
-      el.textContent=open?'Nyní otevřeno':'Nyní zavřeno'; el.classList.toggle('closed', !open);
-    });
-    const row=document.querySelector('#hours tr[data-d="'+now.getDay()+'"]'); row && row.classList.add('today');
-  }catch(e){}
-
-  // Reveal on scroll
-  const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});
-  document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
-
-  // Review dots
-  const track=document.getElementById('revTrack'), dots=[...document.querySelectorAll('#revDots i')];
-  track.addEventListener('scroll', ()=>{
-    const cards=[...track.children]; const w=cards[0].offsetWidth+14;
-    const i=Math.min(cards.length-1, Math.round(track.scrollLeft/w));
-    dots.forEach((d,j)=>d.classList.toggle('on', j===i));
-  }, {passive:true});
-})();
-
-// Lightbox – zvětšení fotek, swipe, pinch/klepnutí pro zoom
-(function(){
-  const lb=document.getElementById('lb'); if(!lb) return;
-  const img=lb.querySelector('.lb-img'), stage=lb.querySelector('.lb-stage'),
-        capEl=lb.querySelector('.lb-cap span'), count=lb.querySelector('.lb-count'),
-        hint=lb.querySelector('.lb-cap small'), MAX=4;
-  let items=[], idx=0, scale=1, tx=0, ty=0, lastFocus=null, g=null;
-  const pts=new Map();
-  const isTouch=matchMedia('(pointer:coarse)').matches;
-  hint.textContent=isTouch?'Klepnutím přiblížíte · přejetím listujete':'Kliknutím přiblížíte · šipkami listujete';
-
-  const srcOf=el=>el.dataset.full||el.getAttribute('href')||(el.querySelector('img')||{}).src;
-  const capOf=el=>{const c=el.dataset.caption||(el.querySelector('img')||{}).alt||'';const t=document.createElement('textarea');t.innerHTML=c;return t.value};
-  const apply=anim=>{
-    img.style.transition=anim?'transform .32s cubic-bezier(.2,.8,.2,1), opacity .25s':'opacity .25s';
-    img.style.transform='translate3d('+tx+'px,'+ty+'px,0) scale('+scale+')';
-    lb.classList.toggle('zoomed',scale>1.01);
-  };
-  const reset=anim=>{scale=1;tx=0;ty=0;apply(anim)};
-  const clamp=()=>{
-    const w=img.offsetWidth*scale,h=img.offsetHeight*scale;
-    const mx=Math.max(0,(w-innerWidth)/2), my=Math.max(0,(h-innerHeight)/2);
-    tx=Math.max(-mx,Math.min(mx,tx)); ty=Math.max(-my,Math.min(my,ty));
-  };
-  const base=()=>{const r=img.getBoundingClientRect();return{s:scale,tx:tx,ty:ty,cx:r.left+r.width/2-tx,cy:r.top+r.height/2-ty}};
-  const zoomAt=(px,py,s,b)=>{
-    const lx=(px-b.cx-b.tx)/b.s, ly=(py-b.cy-b.ty)/b.s;
-    scale=s; tx=px-b.cx-lx*s; ty=py-b.cy-ly*s; clamp();
-  };
-
-  const show=i=>{
-    idx=(i+items.length)%items.length;
-    const el=items[idx], src=srcOf(el), th=el.querySelector('img');
-    reset(false);
-    if(th&&th.currentSrc){img.src=th.currentSrc;img.style.opacity=1}else{img.style.opacity=0}
-    img.alt=capOf(el); capEl.textContent=capOf(el);
-    count.innerHTML='<b>'+String(idx+1).padStart(2,'0')+'</b> / '+String(items.length).padStart(2,'0');
-    const pre=new Image();
-    pre.onload=()=>{if(items[idx]===el){img.src=src;img.style.opacity=1}};
-    pre.onerror=()=>{if(items[idx]===el)img.style.opacity=1};
-    pre.src=src;
-    [1,-1].forEach(d=>{const n=items[(idx+d+items.length)%items.length];if(n&&n!==el){const p=new Image();p.src=srcOf(n)}});
-  };
-  const open=(group,el)=>{
-    items=[...document.querySelectorAll('[data-lb="'+group+'"]')];
-    if(!items.length) return;
-    lastFocus=document.activeElement;
-    lb.classList.toggle('single',items.length<2);
-    lb.hidden=false; void lb.offsetWidth;
-    show(Math.max(0,items.indexOf(el)));
-    lb.classList.add('open');
-    document.documentElement.classList.add('lb-lock');
-    lb.querySelector('.lb-close').focus({preventScroll:true});
-  };
-  const close=()=>{
-    lb.classList.remove('open'); lb.style.removeProperty('--fade');
-    document.documentElement.classList.remove('lb-lock');
-    setTimeout(()=>{if(!lb.classList.contains('open')){lb.hidden=true;img.removeAttribute('src')}},300);
-    if(lastFocus) lastFocus.focus({preventScroll:true});
-  };
-  const swipeTo=d=>{
-    if(items.length<2){reset(true);return}
-    tx=-d*innerWidth*.6; img.style.opacity=0; apply(true);
-    setTimeout(()=>show(idx+d),170);
-  };
-
-  document.addEventListener('click',e=>{
-    const el=e.target.closest('[data-lb]'); if(!el||lb.contains(el)) return;
-    e.preventDefault(); open(el.dataset.lb,el);
-  });
-  document.addEventListener('keydown',e=>{
-    if(lb.hidden){
-      const el=e.target.closest&&e.target.closest('[data-lb][role="button"]');
-      if(el&&(e.key==='Enter'||e.key===' ')){e.preventDefault();open(el.dataset.lb,el)}
-      return;
-    }
-    if(e.key==='Escape') close();
-    else if(e.key==='ArrowRight') show(idx+1);
-    else if(e.key==='ArrowLeft') show(idx-1);
-    else if(e.key==='Tab'){
-      const f=[...lb.querySelectorAll('button')].filter(b=>getComputedStyle(b).visibility!=='hidden'&&b.offsetParent);
-      const i=f.indexOf(document.activeElement); e.preventDefault();
-      f[(i+(e.shiftKey?-1:1)+f.length)%f.length].focus();
-    }
-  });
-  document.querySelectorAll('[data-lb-open]').forEach(b=>b.addEventListener('click',()=>{
-    const first=document.querySelector('[data-lb="'+b.dataset.lbOpen+'"]'); if(first) open(b.dataset.lbOpen,first);
-  }));
-  lb.querySelector('.lb-close').addEventListener('click',close);
-  lb.querySelector('.lb-prev').addEventListener('click',()=>show(idx-1));
-  lb.querySelector('.lb-next').addEventListener('click',()=>show(idx+1));
-  addEventListener('resize',()=>{if(!lb.hidden)reset(false)});
-
-  stage.addEventListener('wheel',e=>{
-    e.preventDefault();
-    const s=Math.max(1,Math.min(MAX,scale*(e.deltaY<0?1.15:1/1.15)));
-    zoomAt(e.clientX,e.clientY,s,base()); apply(false);
-  },{passive:false});
-
-  stage.addEventListener('pointerdown',e=>{
-    try{stage.setPointerCapture(e.pointerId)}catch(_){}
-    pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
-    if(pts.size===1){g={type:'pan',x0:e.clientX,y0:e.clientY,tx0:tx,ty0:ty,moved:false,axis:null,onImg:e.target===img}}
-    else if(pts.size===2){const [a,b]=[...pts.values()];g={type:'pinch',d0:Math.hypot(a.x-b.x,a.y-b.y)||1,b:base()}}
-  });
-  stage.addEventListener('pointermove',e=>{
-    if(!pts.has(e.pointerId)||!g) return;
-    pts.set(e.pointerId,{x:e.clientX,y:e.clientY});
-    if(g.type==='pinch'){
-      if(pts.size<2) return;
-      const [a,b]=[...pts.values()], d=Math.hypot(a.x-b.x,a.y-b.y);
-      zoomAt((a.x+b.x)/2,(a.y+b.y)/2,Math.max(1,Math.min(MAX,g.b.s*d/g.d0)),g.b); apply(false); return;
-    }
-    const dx=e.clientX-g.x0, dy=e.clientY-g.y0;
-    if(!g.moved&&Math.abs(dx)+Math.abs(dy)>8){g.moved=true;g.axis=Math.abs(dx)>=Math.abs(dy)?'x':'y'}
-    if(!g.moved) return;
-    if(scale>1.01){tx=g.tx0+dx;ty=g.ty0+dy;clamp();apply(false)}
-    else if(g.axis==='x'){tx=dx;ty=0;apply(false)}
-    else{tx=0;ty=Math.max(0,dy);apply(false);lb.style.setProperty('--fade',String(Math.max(.3,1-ty/350)))}
-  });
-  const end=e=>{
-    if(!pts.has(e.pointerId)) return;
-    pts.delete(e.pointerId);
-    if(!g) return;
-    if(g.type==='pinch'){
-      if(pts.size===1){const [p]=[...pts.values()];g={type:'pan',x0:p.x,y0:p.y,tx0:tx,ty0:ty,moved:true,axis:'x'}}
-      else if(pts.size===0){if(scale<1.05)reset(true);g=null}
-      return;
-    }
-    if(pts.size) return;
-    const dx=e.clientX-g.x0, dy=e.clientY-g.y0;
-    if(scale>1.01){ if(!g.moved) reset(true) }
-    else if(g.moved){
-      lb.style.removeProperty('--fade');
-      if(g.axis==='x'&&Math.abs(dx)>60) swipeTo(dx<0?1:-1);
-      else if(g.axis==='y'&&dy>110) close();
-      else reset(true);
-    } else if(g.onImg){ zoomAt(e.clientX,e.clientY,2.5,base()); apply(true) }
-    else close();
-    g=null;
-  };
-  stage.addEventListener('pointerup',end);
-  stage.addEventListener('pointercancel',e=>{pts.delete(e.pointerId);g=null;lb.style.removeProperty('--fade');reset(true)});
-})();
-</script>
+<script src="script.js"></script>
 </body>
 </html>
